@@ -1,0 +1,3 @@
+<app-post *ngFor="let post of posts" [post]="post" (lift)="getPostEvent($event)"></app-post>
+
+<app-post-details *ngIf="postDetails" [postDetails]="postDetails"></app-post-details>
