@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.routerContainer {
+  display: flex;
+  width: 50%;
+  border-left: 1px solid black;
+}
