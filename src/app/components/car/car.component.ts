@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
+
 import {ICar} from "../../interfaces";
-import {update} from "@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker";
+import {CarService} from "../../services/car.service";
 
 @Component({
   selector: 'app-car',
@@ -12,12 +13,17 @@ import {update} from "@angular-devkit/build-angular/src/tools/esbuild/angular/co
 export class CarComponent {
   @Input()
   car: ICar
+  constructor(private carService:CarService) {
+  }
 
   updateCar(): void {
-
+    this.carService.setCarForUpdate(this.car)
   }
 
   deleteCar(): void {
+    this.carService.deleteById(this.car.id).subscribe(()=>{
+      this.carService.setTrigger()
+    })
 
   }
 }

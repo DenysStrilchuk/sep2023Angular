@@ -10,7 +10,8 @@ import {urls} from "../constants";
 })
 export class CarService {
 
-  private trigger = new BehaviorSubject<boolean>(null)
+  private _trigger = new BehaviorSubject<boolean>(null)
+  private _carForUpdate = new BehaviorSubject<ICar>(null)
   constructor(private httpClient:HttpClient) { }
 
   getAll():Observable<ICar[]>{
@@ -30,10 +31,18 @@ export class CarService {
   }
 
   getTriggerStatus():Observable<boolean>{
-    return this.trigger.asObservable()
+    return this._trigger.asObservable()
   }
 
   setTrigger():void{
-    this.trigger.next(!this.trigger.value)
+    this._trigger.next(!this._trigger.value)
+  }
+
+  getCarForUpdate():Observable<ICar>{
+    return this._carForUpdate.asObservable()
+  }
+
+  setCarForUpdate(data:ICar):void{
+    this._carForUpdate.next(data)
   }
 }

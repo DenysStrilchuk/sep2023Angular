@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+
 import {CarService} from "../../services/car.service";
 import {ICar} from "../../interfaces";
-import {urls} from "../../constants";
 import {CarComponent} from "../car/car.component";
 import {NgFor} from "@angular/common";
 
@@ -22,7 +22,8 @@ export class CarsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carService.getAll().subscribe(value => this.cars = value)
+    this.carService.getTriggerStatus().subscribe(()=>{
+      this.carService.getAll().subscribe(value => this.cars = value)
+    })
   }
-
 }
