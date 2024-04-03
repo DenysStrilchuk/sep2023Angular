@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {IUser} from "../../../interfaces";
 import {UserService} from "../../../services/user.service";
@@ -13,20 +13,16 @@ import {NgIf} from "@angular/common";
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.css'
 })
-export class UserDetailsComponent {
-  user:IUser
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router:Router,
-    private userService:UserService
-  ) {
-    this.activatedRoute.params.subscribe(({id}) => {
-      this.user = this.router.getCurrentNavigation()?.extras.state as IUser
+export class UserDetailsComponent implements OnInit {
+  user: IUser
 
-      if(!this.user){
-        this.userService.getById(id).subscribe(value => this.user = value)
-      }
-    })
+  constructor(
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({userData}) => this.user = userData)
   }
 
 }

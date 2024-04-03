@@ -19,8 +19,7 @@ constructor(private router:Router, private activatedRoute:ActivatedRoute) {
   getDetails():void {
     // this.router.navigate(['users',this.user.id])
     this.router.navigate([this.user.id],{
-      relativeTo: this.activatedRoute,
-      state: this.user
+      relativeTo: this.activatedRoute
     })
   }
 }
