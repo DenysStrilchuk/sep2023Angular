@@ -10,16 +10,17 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-@Input()
-  user:IUser;
+  @Input()
+  user: IUser;
 
-constructor(private router:Router, private activatedRoute:ActivatedRoute) {
-}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  }
 
-  getDetails():void {
+  getDetails(): void {
     // this.router.navigate(['users',this.user.id])
-    this.router.navigate([this.user.id],{
-      relativeTo: this.activatedRoute
+    this.router.navigate([this.user.id], {
+      relativeTo: this.activatedRoute,
+      state: this.user
     })
   }
 }
