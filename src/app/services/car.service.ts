@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ICar} from "../interfaces/car.interface";
 import {urls} from "../constants/urls";
+import {IPagination} from "../interfaces/pagination.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class CarService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getAll():Observable<ICar[]>{
-    return this.httpClient.get<ICar[]>(urls.cars.base)
+  getAll():Observable<IPagination<ICar>>{
+    return this.httpClient.get<IPagination<ICar>>(urls.cars.base)
   }
 
   create(data:ICar):Observable<ICar>{
