@@ -16,7 +16,8 @@ const urls = {
   auth:{
     login:auth,
     refresh:`${auth}/refresh`,
-    register:users
+    register:users,
+    me:`${auth}/me`
   }
 }
 
