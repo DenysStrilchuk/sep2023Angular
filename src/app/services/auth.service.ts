@@ -17,43 +17,50 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {
   }
 
-  login(user:IAuth):Observable<ITokens>{
+  login(user: IAuth): Observable<ITokens> {
     return this.httpClient.post<ITokens>(urls.auth.login, user).pipe(
-      tap(tokens=> {
+      tap(tokens => {
         this._setTokens(tokens)
         this.me().subscribe()
       })
     )
   }
 
-  me():Observable<IUser>{
-    return this.httpClient.get<IUser>(urls.auth.me).pipe(
-      tap(user=>this.setAuthUser(user))
+  refresh(): Observable<ITokens> {
+    return this.httpClient.post<ITokens>(urls.auth.refresh, {refresh: this.getRefreshToken()}).pipe(
+      tap(tokens=> this._setTokens(tokens))
     )
   }
 
-  private _setTokens({access,refresh}:ITokens):void{
+  me(): Observable<IUser> {
+    return this.httpClient.get<IUser>(urls.auth.me).pipe(
+      tap(user => this.setAuthUser(user))
+    )
+  }
+
+  private _setTokens({access, refresh}: ITokens): void {
     localStorage.setItem(this._accessTokenKey, access)
     localStorage.setItem(this._refreshTokenKey, refresh)
   }
 
-  getAccessToken():string{
+  getAccessToken(): string {
     return localStorage.getItem(this._accessTokenKey)
   }
 
-  getRefreshToken():string{
+  getRefreshToken(): string {
     return localStorage.getItem(this._refreshTokenKey)
   }
 
-  deleteTokens():void{
+  deleteTokens(): void {
     localStorage.removeItem(this._accessTokenKey)
     localStorage.removeItem(this._refreshTokenKey)
   }
 
-  setAuthUser(data:IUser):void{
+  setAuthUser(data: IUser): void {
     this._authUserSubject.next(data)
   }
-  getAuthUser():Observable<IUser>{
+
+  getAuthUser(): Observable<IUser> {
     return this._authUserSubject.asObservable()
   }
 
