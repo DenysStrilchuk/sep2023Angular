@@ -8,29 +8,40 @@ import {Router} from "@angular/router";
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
-  form:FormGroup
+export class LoginComponent implements OnInit {
+  form: FormGroup;
+  error: boolean;
 
   constructor(
-    private fb:FormBuilder,
-    private authService:AuthService,
-    private router:Router
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this._initForm()
-}
-private _initForm():void{
-    this.form = this.fb.group({
-      username:[''],
-      password:['']
-    })
-}
+  }
 
-  login():void {
-    this.authService.login(this.form.value).subscribe(()=>{
-      this.router.navigate(['/cars'])
+  private _initForm(): void {
+    this.form = this.fb.group({
+      username: [''],
+      password: ['']
+    })
+  }
+
+  login(): void {
+    // this.authService.login(this.form.value).subscribe(() => {
+    //   this.router.navigate(['/cars'])
+    // })
+    this.authService.login(this.form.value).subscribe( {
+      next:() => {
+        this.router.navigate(['/cars'])
+        this.error = false
+        },
+      error:()=>{
+        this.error = true
+      },
     })
   }
 }

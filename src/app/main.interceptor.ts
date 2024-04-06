@@ -21,7 +21,7 @@ export class MainInterceptor implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((res: HttpErrorResponse) => {
-        if (res && res.error && res.status === 401) {
+        if (res && res.error && res.status === 401 && res.url != urls.auth.login) {
           const refreshToken = this.authService.getRefreshToken();
 
           if (!this._isRefreshing && refreshToken) {
@@ -61,6 +61,7 @@ export class MainInterceptor implements HttpInterceptor {
     return this.authService.refresh().pipe(
       switchMap(({access}) => {
         this._isRefreshing = false
+        this._waitRefreshListSubject.next(access)
         return next.handle(this._addToken(req, access))
       })
     )
